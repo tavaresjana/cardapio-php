@@ -1,3 +1,31 @@
+<?php 
+
+$horario = date('H:i');
+
+$hora = 13;
+
+$mensagem = ($hora < 12) ? "Bom dia" : (($hora >= 12) ? "Boa tarde" : "Boa noite");
+
+$massas = [
+    [
+        "name" => "Spaghetti", 
+        "description" => "Italian pasta made from wheat flour and water", 
+        "price" => "1.99" 
+    ], 
+    [
+        "name" => "Fettuccine", 
+        "description" => "Flat thick pasta made of egg and flour", 
+        "price" => "2.49" 
+    ], 
+    [
+        "name" => "Linguine", 
+        "description" => "Flat and narrow pasta", 
+        "price" => "2.29" 
+    ] 
+ ] 
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -18,6 +46,9 @@
             <li><a href="/new.html">cadastrar</a></li>
         </ul>
         <div>
+            <p>
+                <?= $mensagem ?>,  <?= $horario ?>
+            </p>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke-width="1.5" stroke="currentColor"
                 class="icon">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -68,30 +99,16 @@
 
         <h4 id="massas">🍝 massas</h4>
         <section>
-            <div class="card">
-                <img src="./assets/images/massa1.jpg" alt="food">
-                <div class="card-body">
-                    <h5>carbonara</h5>
-                    <p>massa italiana, molho branco, bacon, queijo parmesão e ovo</p>
-                    <p class="price">R$ 35,00</p>
+            <?php foreach ($massas as $massa) : ?>
+                <div class="card">
+                    <img src="./assets/images/massa1.jpg" alt="food">
+                    <div class="card-body">
+                        <h5><?= $massa["name"] ?></h5>
+                        <p><?= $massa["description"] ?></p>
+                        <p class="price">R<?= $massa["price"] ?></p>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <img src="./assets/images/massa1.jpg" alt="food">
-                <div class="card-body">
-                    <h5>carbonara</h5>
-                    <p>massa italiana, molho branco, bacon, queijo parmesão e ovo</p>
-                    <p class="price">R$ 35,00</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="./assets/images/massa1.jpg" alt="food">
-                <div class="card-body">
-                    <h5>carbonara</h5>
-                    <p>massa italiana, molho branco, bacon, queijo parmesão e ovo</p>
-                    <p class="price">R$ 35,00</p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </section>
     </main>
 
