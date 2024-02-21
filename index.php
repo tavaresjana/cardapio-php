@@ -1,28 +1,28 @@
 <?php 
 
+require("./data/data/conexao.php");
+require("./model/Produto.php");
+
 $horario = date('H:i');
 
 $hora = 13;
 
 $mensagem = ($hora < 12) ? "Bom dia" : (($hora >= 12) ? "Boa tarde" : "Boa noite");
 
-$massas = [
-    [
-        "name" => "Spaghetti", 
-        "description" => "Italian pasta made from wheat flour and water", 
-        "price" => "1.99" 
-    ], 
-    [
-        "name" => "Fettuccine", 
-        "description" => "Flat thick pasta made of egg and flour", 
-        "price" => "2.49" 
-    ], 
-    [
-        "name" => "Linguine", 
-        "description" => "Flat and narrow pasta", 
-        "price" => "2.29" 
-    ] 
- ] 
+$sql = "SELECT * FROM produtos";
+$resultado = $pdo->query($sql);
+$dados= $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+$produtos = array_map(function ($produtos){
+    return new Produto(
+        $produtos["id"],
+        $produtos["nome"],
+        $produtos["descricao"],
+        $produtos["preco"],
+        $produtos["imagem"]
+    );
+}, $dados);
+
 
 ?>
 
@@ -99,13 +99,13 @@ $massas = [
 
         <h4 id="massas">🍝 massas</h4>
         <section>
-            <?php foreach ($massas as $massa) : ?>
+            <?php foreach ($produtos as $produtos) : ?>
                 <div class="card">
-                    <img src="./assets/images/massa1.jpg" alt="food">
+                    <img src="<?= $produtos->getImagem() ?>" alt="food">
                     <div class="card-body">
-                        <h5><?= $massa["name"] ?></h5>
-                        <p><?= $massa["description"] ?></p>
-                        <p class="price">R<?= $massa["price"] ?></p>
+                        <h5><?= $produtos->getNome() ?></h5>
+                        <p><?= $produtos->getDescricao() ?></p>
+                        <p class="price"> <?= $produtos->getPrecoFormatado() ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
